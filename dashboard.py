@@ -20,7 +20,7 @@ data = pd.read_csv("WDM.csv")
 st.subheader("Project Overview")
 col1, col2, col3 = st.columns(3)
 col1.metric("Total Countries", data["Country"].nunique())
-col2.metric("Features Used", len(data.columns))
+col2.metric("Column Used", len(data.columns))
 col3.metric("Dataset Rows", len(data))
 import numpy as np
 data = data.replace("None", np.nan)
