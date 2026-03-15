@@ -5,12 +5,32 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 st.title("Country Clustering Dashboard")
+st.markdown("""
+This interactive dashboard clusters countries based on economic and development indicators.
 
+*Techniques Used*
+- K-Means Clustering
+- PCA (Principal Component Analysis)
+- Clustering Evaluation Metrics
+
+The goal is to identify patterns and similarities between countries using data-driven clustering.
+""")
 # Load dataset
 data = pd.read_csv("WDM.csv")
+st.subheader("Project Overview")
+col1, col2, col3 = st.columns(3)
+col1.metric("Total Countries", data["Country"].nunique())
+col2.metric("Features Used", len(data.columns))
+col3.metric("Dataset Rows", len(data))
 import numpy as np
 data = data.replace("None", np.nan)
 st.subheader("Dataset Preview")
+st.download_button(
+    label="Download Dataset",
+    data=data.to_csv(index=False),
+    file_name="country_dataset.csv",
+    mime="text/csv"
+)
 st.dataframe(data.head())
 
 # Load model and scaler
@@ -117,3 +137,21 @@ cluster_selected = st.selectbox(
 )
 cluster_countries = data[data["Cluster"] == cluster_selected]["Country"]
 st.write(cluster_countries)
+
+st.subheader("Model Information")
+
+st.write("""
+Model Used: *K-Means Clustering*
+
+Evaluation Metrics Used:
+- Silhouette Score
+- Davies-Bouldin Score
+- Calinski-Harabasz Score
+
+Dimensionality Reduction:
+- PCA (2 Components) for visualization
+
+Deployment:
+- Built with Streamlit
+- Hosted on Streamlit Cloud
+""")
